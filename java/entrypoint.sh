@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2021 Matthew Penner
+# Copyright (c) 2021 Collin Ilgner
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -42,10 +42,9 @@ java -version
 # replacing the values.
 PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g')
 
-exec bash -c "$PARSED"
 
-# Display the command we're running in the output, and then execute it with the env
-# from the container itself.
+# Display the command we're running in the output
 printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0m%s\n" "$PARSED"
-# shellcheck disable=SC2086
-exec env ${PARSED}
+
+# Execute the parsed startup command
+eval "$PARSED"
