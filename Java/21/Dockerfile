@@ -22,10 +22,7 @@
 
 FROM --platform=$TARGETOS/$TARGETARCH eclipse-temurin:21-jdk
 
-LABEL author="Matthew Penner" maintainer="matthew@pterodactyl.io"
-
-LABEL org.opencontainers.image.source="https://github.com/pterodactyl/yolks"
-LABEL org.opencontainers.image.licenses=MIT
+LABEL author="Collin Ilgner" maintainer="cohohohn04@gmail.com"
 
 # Install Maven
 RUN apt-get update -y \
