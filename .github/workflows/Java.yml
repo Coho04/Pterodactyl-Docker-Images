@@ -35,4 +35,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/Coho04/Pterodactyl-Docker-Images:java_${{ matrix.tag }}
+            ghcr.io/coho04/pterodactyl-docker-images:java_${{ matrix.tag }}
