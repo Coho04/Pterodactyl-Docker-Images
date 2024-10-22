@@ -26,12 +26,12 @@ LABEL author="Collin Ilgner" maintainer="cohohohn04@gmail.com"
 
 # Install system dependencies
 RUN apt-get update -y \
-    && apt-get install -y git curl zip unzip tar sqlite3 libzip-dev libonig-dev libfreetype6 libjpeg62-turbo-dev libpng-dev \
+    && apt-get install -y git curl zip unzip tar sqlite3 libzip-dev libonig-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl bcmath gd
 
 # Install Composer globally
