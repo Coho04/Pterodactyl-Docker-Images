@@ -45,11 +45,5 @@ PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g')
 # Display the command we're running in the output
 printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0m%s\n" "$PARSED"
 
-# Run Composer if not already installed
-if [ ! -d "vendor" ]; then
-    printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mrunning composer install\n"
-    composer install --no-dev --optimize-autoloader
-fi
-
 # Execute the parsed startup command
 eval "$PARSED"
