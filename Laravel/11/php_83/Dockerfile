@@ -20,7 +20,7 @@
 # SOFTWARE.
 #
 
-FROM --platform=$TARGETOS/$TARGETARCH php:8.2-fpm
+FROM --platform=$TARGETOS/$TARGETARCH php:8.3-fpm
 
 LABEL author="Collin Ilgner" maintainer="cohohohn04@gmail.com"
 
@@ -47,7 +47,7 @@ ENV USER=container HOME=/home/container
 WORKDIR /home/container
 
 # Copy the entrypoint script
-COPY ./../entrypoint.sh /entrypoint.sh
+COPY ./../../entrypoint.sh /entrypoint.sh
 
 # Set entrypoint
 CMD [ "/bin/bash", "/entrypoint.sh" ]
