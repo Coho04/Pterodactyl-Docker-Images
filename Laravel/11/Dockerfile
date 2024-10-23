@@ -27,6 +27,7 @@ LABEL author="Collin Ilgner" maintainer="cohohohn04@gmail.com"
 # Install system dependencies
 RUN apt-get update -y \
     && apt-get install -y git curl zip unzip tar sqlite3 libzip-dev libonig-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev iproute2 \
+    nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -46,8 +47,14 @@ USER container
 ENV USER=container HOME=/home/container
 WORKDIR /home/container
 
-# Copy the entrypoint script
-COPY ./../entrypoint.sh /entrypoint.sh
+# Kopiere Nginx-Konfiguration aus dem Git-Repo
+COPY ./nginx/nginx.conf /home/container/nginx/nginx.conf
+
+# Erstelle Symlink zur Nginx-Konfigurationsdatei
+RUN ln -sf /home/container/nginx/nginx.conf /etc/nginx/nginx.conf
+
+# Expose HTTP port
+EXPOSE 80
 
 # Set entrypoint
 CMD [ "/bin/bash", "/entrypoint.sh" ]

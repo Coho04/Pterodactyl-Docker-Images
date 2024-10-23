@@ -1,24 +1,27 @@
 # Pterodactyl-Docker-Images
 
-## Übersicht
+## Overview
 
-Dieses Projekt enthält Docker-Images für die Verwendung mit Pterodactyl. Es umfasst verschiedene Versionen von Java und stellt sicher, dass die Images auf verschiedenen Plattformen wie `linux/amd64` und `linux/arm64` funktionieren.
+This project contains Docker images for use with Pterodactyl. It includes various versions of Java and PHP, ensuring that the images work on different platforms such as `linux/amd64` and `linux/arm64`.
 
-## Verzeichnisstruktur
+## Directory Structure
 
-- `.github/workflows/Java.yml`: GitHub Actions Workflow zum Erstellen und Veröffentlichen der Docker-Images.
-- `java/entrypoint.sh`: Entrypoint-Skript, das beim Starten des Containers ausgeführt wird.
-- `java/21/Dockerfile`: Dockerfile für Java 21.
+- `.github/workflows/Java.yml`: GitHub Actions workflow for building and publishing the Java Docker images.
+- `java/entrypoint.sh`: Entrypoint script executed when the Java container starts.
+- `java/21/Dockerfile`: Dockerfile for Java 21.
+- `Laravel/entrypoint.sh`: Entrypoint script executed when the Laravel container starts.
+- `Laravel/11/Dockerfile`: Dockerfile for Laravel with PHP 8.2.
 
-## Docker-Images
+## Docker Images
 
-Die Docker-Images werden automatisch erstellt und in die GitHub Container Registry (`ghcr.io`) gepusht. Die Tags der Images folgen dem Schema `java_<version>`.
+The Docker images are automatically built and pushed to the GitHub Container Registry (`ghcr.io`). The tags of the images follow the schema `java_<version>` and `laravel_<version>`.
 
-## Verwendung
+## Usage
 
-### Docker-Image ausführen
+### Running a Docker Image
 
-Um ein Docker-Image auszuführen, verwenden Sie den folgenden Befehl:
+To run a Docker image, use the following command:
 
 ```sh
-docker run -it ghcr.io/coho04/pterodactyl-docker-images:java_<version># Pterodactyl-Docker-Images
+docker run -it ghcr.io/coho04/pterodactyl-docker-images:java_<version>
+```
