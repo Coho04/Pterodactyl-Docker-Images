@@ -50,9 +50,6 @@ WORKDIR /home/container
 # Kopiere Nginx-Konfiguration aus dem Git-Repo
 COPY ./nginx/nginx.conf /home/container/nginx/nginx.conf
 
-# Erstelle Symlink zur Nginx-Konfigurationsdatei
-RUN ln -sf /home/container/nginx/nginx.conf /etc/nginx/nginx.conf
-
 # Expose HTTP port
 EXPOSE 80
 
