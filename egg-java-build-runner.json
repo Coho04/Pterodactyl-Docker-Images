@@ -1,0 +1,102 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2024-11-27T08:53:04+01:00",
+    "name": "Java Build Runner",
+    "author": "cohohohn04@gmail.com",
+    "description": "An Egg to automatically build Java code from a GitHub repository upon each commit and run it on the server.",
+    "features": null,
+    "docker_images": {
+        "ghcr.io\/parkervcp\/yolks:java_8": "ghcr.io\/parkervcp\/yolks:java_8",
+        "ghcr.io\/parkervcp\/yolks:java_11": "ghcr.io\/parkervcp\/yolks:java_11",
+        "ghcr.io\/parkervcp\/yolks:java_16": "ghcr.io\/parkervcp\/yolks:java_16",
+        "ghcr.io\/parkervcp\/yolks:java_17": "ghcr.io\/parkervcp\/yolks:java_17",
+        "ghcr.io\/parkervcp\/yolks:java_19": "ghcr.io\/parkervcp\/yolks:java_19",
+        "ghcr.io\/parkervcp\/yolks:java_21": "ghcr.io\/parkervcp\/yolks:java_21",
+        "eclipse-temurin:22-jdk": "eclipse-temurin:22-jdk",
+        "eclipse-temurin:23-jdk": "eclipse-temurin:23-jdk",
+        "openjdk:24-jdk-oraclelinux9": "openjdk:24-jdk-oraclelinux9",
+        "maven:3.8.6-openjdk-21": "maven:3.8.6-openjdk-21",
+        "ghcr.io\/coho04\/pterodactyl-docker-images:java_21": "ghcr.io\/coho04\/pterodactyl-docker-images:java_21"
+    },
+    "file_denylist": [],
+    "startup": "mkdir -p \/home\/container\/repo;\r\ncd \/home\/container\/repo;\r\nif [ -n \"$USERNAME\" ] && [ -n \"$ACCESS_TOKEN\" ] && [ -n \"$GITHUB_REPO_URL\" ]; then\r\n    GITHUB_REPO_URL=\"https:\/\/$USERNAME:$ACCESS_TOKEN@${GITHUB_REPO_URL#https:\/\/}\";\r\n    echo -e \"[SETUP] Cloning the repository\";\r\n    git clone -b \"$BRANCH\" \"$GITHUB_REPO_URL\" \/home\/container\/repo;\r\nelse\r\n    echo -e \"[ERROR] Missing GitHub credentials or repository URL\";\r\n    exit 1;\r\nfi;\r\n\r\nif [ -f pom.xml ]; then\r\n    echo -e \"[SETUP] Building with Maven\";\r\n    mvn clean package -Dfile.encoding=UTF-8;\r\n    echo -e \"[SETUP] Copying JAR file to \/home\/container\/\";\r\n    cp \/home\/container\/repo\/target\/$RUN_FILE \/home\/container\/$RUN_FILE;\r\n    cd .. && rm -rf \/home\/container\/repo;\r\nelse\r\n    echo -e \"[ERROR] No valid pom.xml file found for Maven build\";\r\n    exit 1;\r\nfi;\r\njava -Dterminal.jline=false -Dterminal.ansi=true -jar \/home\/container\/$RUN_FILE 2>&1 | tee logs\/latest.log",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Java application started successfully\"\r\n}",
+        "logs": "{\r\n    \"location\": \"logs\/latest.log\"\r\n}",
+        "stop": "^^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "mkdir -p logs\r\ncd logs && touch latest.log",
+            "container": "ghcr.io\/parkervcp\/yolks:debian",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "GitHub Repository URL",
+            "description": "The URL of the GitHub repository to clone.",
+            "env_variable": "GITHUB_REPO_URL",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Java Version",
+            "description": "The Java version to use for building and running the project.",
+            "env_variable": "JAVA_VERSION",
+            "default_value": "21",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Git Branch",
+            "description": "The branch of the repository to clone. Default is 'main'.",
+            "env_variable": "BRANCH",
+            "default_value": "main",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Run File",
+            "description": "Name of the JAR file to run after build.",
+            "env_variable": "RUN_FILE",
+            "default_value": "my-application.jar",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Git Username",
+            "description": "Username for accessing the GitHub repository.",
+            "env_variable": "USERNAME",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "field_type": "text"
+        },
+        {
+            "name": "Git Access Token",
+            "description": "Access token for accessing the GitHub repository.",
+            "env_variable": "ACCESS_TOKEN",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "field_type": "text"
+        }
+    ]
+}
