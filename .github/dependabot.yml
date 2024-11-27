@@ -14,7 +14,7 @@ updates:
     reviewers:
       - "Coho04"
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "/java/21"
     schedule:
       interval: "daily"
     assignees:
